@@ -1,0 +1,38 @@
+.actions { display: flex; gap: 1px; }
+
+.addBtn, .buyBtn {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  padding: 15px var(--spacing-md);
+  font-family: var(--font-heading);
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  transition: all 0.2s;
+  border: 2px solid transparent;
+}
+
+.addBtn {
+  background: transparent;
+  color: var(--color-text-main);
+  border-color: var(--color-primary);
+}
+.addBtn:hover:not(:disabled) { background: var(--color-primary); color: #fff; }
+
+.buyBtn {
+  background: var(--color-primary);
+  color: #fff;
+  border-color: var(--color-primary);
+}
+.buyBtn:hover:not(:disabled) { background: #000; border-color: #000; }
+
+.addBtn:disabled, .buyBtn:disabled {
+  background: var(--color-surface-alt);
+  color: var(--color-text-muted);
+  border-color: var(--color-border);
+  cursor: not-allowed;
+}

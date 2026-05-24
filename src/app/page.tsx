@@ -1,95 +1,120 @@
-import Image from "next/image";
-import styles from "./page.module.css";
+import Link from 'next/link';
+import { siteConfig } from '@/config/siteConfig';
+import { DUMMY_PRODUCTS } from '@/lib/dummyData';
+import { ProductCard } from '@/components/product/ProductCard';
+import styles from './page.module.css';
 
 export default function Home() {
+  const categories = siteConfig.categories;
+
   return (
     <div className={styles.page}>
-      <main className={styles.main}>
-        <Image
-          className={styles.logo}
-          src="/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol>
-          <li>
-            Get started by editing <code>src/app/page.tsx</code>.
-          </li>
-          <li>Save and see your changes instantly.</li>
-        </ol>
 
-        <div className={styles.ctas}>
-          <a
-            className={styles.primary}
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className={styles.logo}
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
-          </a>
-          <a
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-            className={styles.secondary}
-          >
-            Read our docs
-          </a>
+      {/* ── HERO ── */}
+      <section className={styles.hero}>
+        <div className={styles.heroContent}>
+          <h1 className={styles.heroTitle}>Your Products<br />Are Great.</h1>
+          <Link href="/products" className={styles.heroBtn}>Shop Product</Link>
         </div>
-      </main>
-      <footer className={styles.footer}>
-        <a
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
+        <div className={styles.heroImageWrap}>
+          <img
+            src="https://images.unsplash.com/photo-1523275335684-37898b6baf30?auto=format&fit=crop&w=800&q=90"
+            alt="Hero product"
+            className={styles.heroImage}
           />
-          Learn
-        </a>
-        <a
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
+        </div>
+        {/* Arrows */}
+        <button className={`${styles.heroArrow} ${styles.heroArrowLeft}`}>&#8249;</button>
+        <button className={`${styles.heroArrow} ${styles.heroArrowRight}`}>&#8250;</button>
+      </section>
+
+      {/* ── TRUST ICONS ── */}
+      <section className={styles.trust}>
+        <div className={styles.trustGrid}>
+          {[
+            { icon: '🚚', title: 'Free Delivery', desc: 'Consectetur adipiscing elit, sed do eiusmod tempor.' },
+            { icon: '✓', title: 'Quality Guarantee', desc: 'Consectetur adipiscing elit, sed do eiusmod tempor.' },
+            { icon: '%', title: 'Daily Offers', desc: 'Consectetur adipiscing elit, sed do eiusmod tempor.' },
+            { icon: '🔒', title: '100% Secure Payment', desc: 'Consectetur adipiscing elit, sed do eiusmod tempor.' },
+          ].map(item => (
+            <div key={item.title} className={styles.trustItem}>
+              <div className={styles.trustIconBox}>{item.icon}</div>
+              <div>
+                <p className={styles.trustTitle}>{item.title}</p>
+                <p className={styles.trustDesc}>{item.desc}</p>
+              </div>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      {/* ── CATEGORY SECTIONS — one per category, 4 products each ── */}
+      {categories.map(cat => {
+        const catProducts = DUMMY_PRODUCTS.filter(p => p.category_id === cat.id).slice(0, 4);
+        if (!catProducts.length) return null;
+        return (
+          <section key={cat.id} className={styles.catSection}>
+            <div className={styles.catHeader}>
+              <h2 className={styles.catTitle}>{cat.name}</h2>
+              <Link href={`/products?category=${cat.id}`} className={styles.catGoTo}>GO TO SHOP →</Link>
+            </div>
+            <div className={styles.catGrid}>
+              {catProducts.map(p => <ProductCard key={p.id} product={p} />)}
+            </div>
+            {/* Dots indicator */}
+            <div className={styles.dots}>
+              <span className={`${styles.dot} ${styles.dotActive}`} />
+              <span className={styles.dot} />
+              <span className={styles.dot} />
+            </div>
+          </section>
+        );
+      })}
+
+      {/* ── NEW YEAR SALE BANNER ── */}
+      <section className={styles.saleBanner}>
+        <div className={styles.saleBannerContent}>
+          <p className={styles.saleOff}>— 10% OFF</p>
+          <h2 className={styles.saleTitle}>New Year Sale</h2>
+          <Link href="/products" className={styles.saleBtn}>Shop It</Link>
+        </div>
+        <div className={styles.saleBannerImg}>
+          <img
+            src="https://images.unsplash.com/photo-1610945265064-0e34e5519bbf?auto=format&fit=crop&w=700&q=80"
+            alt="Sale"
           />
-          Examples
-        </a>
-        <a
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
-      </footer>
+        </div>
+      </section>
+
+      {/* ── NEWSLETTER ── */}
+      <section className={styles.newsletter}>
+        <div className={styles.newsletterInner}>
+          <div>
+            <h3 className={styles.newsletterTitle}>Subscribe Us Now</h3>
+            <p className={styles.newsletterDesc}>Get latest updates and offers.</p>
+          </div>
+          <form className={styles.newsletterForm}>
+            <input type="email" placeholder="Enter your email address" className={styles.newsletterInput} />
+            <button type="submit" className={styles.newsletterBtn}>SUBSCRIBE</button>
+          </form>
+        </div>
+      </section>
+
+      {/* ── SHOP OUR INSTA (gallery strip) ── */}
+      <section className={styles.instaSection}>
+        <h3 className={styles.instaTitle}>Shop Our Insta</h3>
+        <div className={styles.instaGrid}>
+          {DUMMY_PRODUCTS.slice(0, 6).map(p => (
+            <div key={p.id} className={styles.instaItem}>
+              <img src={p.image_url} alt={p.title} />
+              <div className={styles.instaOverlay}>
+                <span>📷</span>
+              </div>
+            </div>
+          ))}
+        </div>
+      </section>
+
     </div>
   );
 }
