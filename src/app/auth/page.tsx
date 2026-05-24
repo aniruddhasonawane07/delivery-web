@@ -31,8 +31,8 @@ export default function AuthPage() {
         if (error) throw error;
         alert('Check your email for the confirmation link!');
       }
-    } catch (err: any) {
-      setError(err.message);
+    } catch (err: unknown) {
+      setError(err instanceof Error ? err.message : String(err));
     } finally {
       setLoading(false);
     }

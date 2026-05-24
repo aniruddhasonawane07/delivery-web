@@ -13,7 +13,7 @@ export default function CartPage() {
   const router = useRouter();
   const { showToast } = useToast();
   const [mounted, setMounted] = useState(false);
-  const { items, removeItem, updateQuantity, getTotalPrice, getTotalItems } = useCartStore();
+  const { items, removeItem, updateQuantity, getTotalPrice } = useCartStore();
 
   useEffect(() => { setMounted(true); }, []);
   if (!mounted) return null;
@@ -25,7 +25,7 @@ export default function CartPage() {
       <div className={styles.emptyState}>
         <ShoppingBag size={64} strokeWidth={1} color="#ccc" />
         <h2 className={styles.emptyTitle}>Your Cart is Empty</h2>
-        <p className={styles.emptyDesc}>Looks like you haven't added anything yet.</p>
+        <p className={styles.emptyDesc}>Looks like you haven&apos;t added anything yet.</p>
         <Link href="/products" className={styles.shopBtn}>Continue Shopping</Link>
       </div>
     );
